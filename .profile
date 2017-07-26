@@ -107,6 +107,7 @@ alias pg_status='pg_ctl -D /usr/local/var/postgres status'
 alias redis_start='redis-server /usr/local/etc/redis.conf'
 alias ngrok='~/ngrok'
 alias workers='RAILS_ENV=development foreman start -c assets_worker=1,worker=1'
+alias clear_ember_cache='rm -rf node_modules bower_components dis tmp'
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 export DRONEBASE_API_KEY='bTKW0Hmqhq0Ab464vvJefw'
 export GOPATH=$HOME/Code
