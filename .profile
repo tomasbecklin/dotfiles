@@ -113,7 +113,7 @@ export DRONEBASE_API_KEY='bTKW0Hmqhq0Ab464vvJefw'
 export GOPATH=$HOME/Code
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
-alias krpanotools='/Applications/krpano-1.19-pr4/krpanotools'
 export NVM_DIR="$HOME/.nvm"
-. "/usr/local/opt/nvm/nvm.sh"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
+
 # source /usr/local/git/contrib/completion/git-completion.bash
