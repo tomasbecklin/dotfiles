@@ -1,30 +1,15 @@
-. /usr/local/etc/bash_completion.d/git-prompt.sh
-. /usr/local/etc/bash_completion.d/git-completion.bash
+[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
 
-DULL=0
-BRIGHT=1
+GIT_PROMPT_ONLY_IN_REPO=1 # Use the default prompt when not in a git repo.
+GIT_PROMPT_FETCH_REMOTE_STATUS=0 # Avoid fetching remote status
+GIT_PROMPT_SHOW_UPSTREAM=0 # Don't display upstream tracking branch
+GIT_SHOW_UNTRACKED_FILES=no # Don't count untracked files (no, normal, all)
+GIT_PROMPT_THEME=Custom # to edit theme ~/.git-prompt-colors.sh
 
-FG_BLACK=30
-FG_RED=31
-FG_GREEN=32
-FG_YELLOW=33
-FG_BLUE=34
-FG_VIOLET=35
-FG_CYAN=36
-FG_WHITE=37
-
-FG_NULL=00
-
-BG_BLACK=40
-BG_RED=41
-BG_GREEN=42
-BG_YELLOW=43
-BG_BLUE=44
-BG_VIOLET=45
-BG_CYAN=46
-BG_WHITE=47
-
-BG_NULL=00
+if [ -f "/usr/local/opt/bash-git-prompt/share/gitprompt.sh" ]; then
+ __GIT_PROMPT_DIR="/usr/local/opt/bash-git-prompt/share"
+ source "/usr/local/opt/bash-git-prompt/share/gitprompt.sh"
+fi
 
 ##
 # ANSI Escape Commands
@@ -42,21 +27,8 @@ VIOLET="$ESC[${DULL};${FG_VIOLET}m"
 CYAN="$ESC[${DULL};${FG_CYAN}m"
 WHITE="$ESC[${DULL};${FG_WHITE}m"
 
-# BRIGHT TEXT
-BRIGHT_BLACK="$ESC[${BRIGHT};${FG_BLACK}m"
-BRIGHT_RED="$ESC[${BRIGHT};${FG_RED}m"
-BRIGHT_GREEN="$ESC[${BRIGHT};${FG_GREEN}m"
-BRIGHT_YELLOW="$ESC[${BRIGHT};${FG_YELLOW}m"
-BRIGHT_BLUE="$ESC[${BRIGHT};${FG_BLUE}m"
-BRIGHT_VIOLET="$ESC[${BRIGHT};${FG_VIOLET}m"
-BRIGHT_CYAN="$ESC[${BRIGHT};${FG_CYAN}m"
-BRIGHT_WHITE="$ESC[${BRIGHT};${FG_WHITE}m"
-
-export TERM='xterm-color'
 alias ls='ls -G'
 alias ll='ls -lG'
-export LSCOLORS="ExGxBxDxCxEgEdxbxgxcxd"
-export GREP_OPTIONS="--color"
 
 # Erase duplicates in history
 export HISTCONTROL=erasedups
@@ -73,32 +45,13 @@ function minutes_since_last_commit {
     echo $minutes_since_last_commit
 }
 
-grb_git_prompt() {
-    local g="$(__gitdir)"
-    if [ -n "$g" ]; then
-        local MINUTES_SINCE_LAST_COMMIT=`minutes_since_last_commit`
-        if [ "$MINUTES_SINCE_LAST_COMMIT" -gt 30 ]; then
-            local COLOR=${RED}
-        elif [ "$MINUTES_SINCE_LAST_COMMIT" -gt 10 ]; then
-            local COLOR=${YELLOW}
-        else
-            local COLOR=${GREEN}
-        fi
-        local SINCE_LAST_COMMIT="${COLOR}$(minutes_since_last_commit)m${NORMAL}"
-        local BRANCH_NAME="${RED}%s${NORMAL}"
-        # The __git_ps1 function inserts the current git branch where %s is
-        local GIT_PROMPT=`__git_ps1 "(${BRANCH_NAME}|${SINCE_LAST_COMMIT})"`
-        echo ${GIT_PROMPT}
-    fi
-}
-
 function __bundler_ps1 {
   if [ -n "${BUNDLE_GEMFILE-}" ]; then
     printf "${1-(%s) }" "$(dirname $BUNDLE_GEMFILE | xargs basename)"
   fi
 }
 
-PS1="\[$GREEN\]\u@\h:\[$NORMAL\]\w \$(grb_git_prompt) \n:p "
+PS1="\[$GREEN\]\u@\h:\[$NORMAL\]\w \n:p "
 
 alias pg_start='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start'
 alias pg_stop='pg_ctl -D /usr/local/var/postgres stop -s -m fast'
@@ -110,10 +63,7 @@ alias workers='RAILS_ENV=development foreman start -c assets_worker=1,worker=1'
 alias clear_ember_cache='rm -rf node_modules bower_components dis tmp'
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 export DRONEBASE_API_KEY='bTKW0Hmqhq0Ab464vvJefw'
-export GOPATH=$HOME/Code
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
-
-# source /usr/local/git/contrib/completion/git-completion.bash
