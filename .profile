@@ -61,6 +61,8 @@ alias redis_start='redis-server /usr/local/etc/redis.conf'
 alias ngrok='~/ngrok'
 alias workers='RAILS_ENV=development foreman start -c assets_worker=1,worker=1'
 alias clear_ember_cache='rm -rf node_modules bower_components dis tmp'
+alias npm_package_versions='npm list --depth=0'
+
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 export DRONEBASE_API_KEY='bTKW0Hmqhq0Ab464vvJefw'
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
