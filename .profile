@@ -62,6 +62,7 @@ alias ngrok='~/ngrok'
 alias workers='RAILS_ENV=development foreman start -c assets_worker=1,worker=1'
 alias clear_ember_cache='rm -rf node_modules bower_components dis tmp'
 alias npm_package_versions='npm list --depth=0'
+alias after_pull='bundle & rake db:migrate & rake data:migrate'
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 export DRONEBASE_API_KEY='bTKW0Hmqhq0Ab464vvJefw'
