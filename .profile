@@ -64,9 +64,13 @@ alias clear_ember_cache='rm -rf node_modules bower_components dis tmp'
 alias npm_package_versions='npm list --depth=0'
 alias after_pull='bundle & rake db:migrate & rake data:migrate'
 
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 export DRONEBASE_API_KEY='bTKW0Hmqhq0Ab464vvJefw'
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
+export PATH="/usr/local/opt/postgresql@9.4/bin:$PATH"
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
