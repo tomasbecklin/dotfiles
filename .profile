@@ -67,6 +67,7 @@ alias d_up='docker-compose up'
 alias d_up_f='docker-compose up --force-recreate'
 alias d_rails_s='docker-compose run --entrypoint "bundle exec rails s -b 0.0.0.0" --service-ports web'
 alias d_bash='docker-compose run web bash'
+alias clear_dns='sudo killall -HUP mDNSResponder && echo macOS DNS Cache Reset'
 
 export DRONEBASE_API_KEY='bTKW0Hmqhq0Ab464vvJefw'
 
