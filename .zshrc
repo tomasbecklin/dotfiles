@@ -8,7 +8,7 @@ export HISTCONTROL=erasedups
 # Store 10k history entries
 export HISTSIZE=10000
 # Append to the history file when exiting instead of overwriting it
-shopt -s histappend
+setopt APPEND_HISTORY
 
 source ~/.git-prompt.sh
 zstyle ':completion:*:*:git:*' script ~/.git-completion.bash
