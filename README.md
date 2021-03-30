@@ -24,3 +24,5 @@ Add git SSH: https://docs.github.com/en/github/authenticating-to-github/generati
 \
 \
 Visual Studio Code: https://code.visualstudio.com/
+
+Postman: https://www.postman.com/downloads/
