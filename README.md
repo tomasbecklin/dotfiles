@@ -20,6 +20,10 @@
 `brew install postgis`\
 `brew services start postgresql`\
 \
+`brew install redis`\
+`brew services start redis`\
+\
+
 Add git SSH: https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
 \
 \
