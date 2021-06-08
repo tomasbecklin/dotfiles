@@ -23,6 +23,8 @@
 `brew install redis`\
 `brew services start redis`\
 \
+`brew tap heroku/brew && brew install heroku`\
+\
 
 Add git SSH: https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
 \
