@@ -25,7 +25,9 @@
 \
 `brew tap heroku/brew && brew install heroku`\
 \
-
+`gem install rails`
+`gem install magic_frozen_string_literal`\
+\
 Add git SSH: https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
 \
 \
