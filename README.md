@@ -18,7 +18,8 @@
 \
 `brew install postgres`\
 `brew install postgis`\
-`brew services start postgresql`\
+`brew services start postgresql@15`\
+`brew services start postgresql@15`\
 \
 `brew install redis`\
 `brew services start redis`\
