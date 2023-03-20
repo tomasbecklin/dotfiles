@@ -31,9 +31,10 @@
 `gem install rails`\
 `gem install magic_frozen_string_literal`\
 \
-Add git SSH: https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+Add git SSH: https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent \
 \
-`echo 'export PATH="/opt/homebrew/opt/libpq/bin:$PATH"' >> ~/.zshrc` if bundle fails on pg gem
+`echo 'export PATH="/opt/homebrew/opt/libpq/bin:$PATH"' >> ~/.zshrc` if bundle fails on pg gem\
+\
 \
 Visual Studio Code: https://code.visualstudio.com/
 
