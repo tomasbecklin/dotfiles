@@ -26,7 +26,9 @@
 \
 `brew tap heroku/brew && brew install heroku`\
 \
-`gem install rails`
+`brew install libyaml`\
+`CONFIGURE_OPTS=--with-openssl-dir=`brew --prefix openssl@1.1` rbenv install 3.2.1` hack to get around rbenv issue on M2
+`gem install rails`\
 `gem install magic_frozen_string_literal`\
 \
 Add git SSH: https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
