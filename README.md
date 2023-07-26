@@ -4,6 +4,8 @@
 `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`\
 \
 `brew install rbenv`\
+`brew install nodenv`\
+`brew install pyenv`\
 `brew install git`\
 \
 `mkdir ~/Documents/Code`\
