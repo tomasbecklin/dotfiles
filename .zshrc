@@ -3,48 +3,100 @@ alias ll='ls -lG'
 alias genpw='LC_ALL=C tr -dc "[:alnum:]" < /dev/urandom | head -c 20 | pbcopy'
 alias clear_dns='sudo killall -HUP mDNSResponder && echo macOS DNS Cache Reset'
 alias sr='OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES bundle exec spring rspec'
-alias aws_vault='aws-vault exec PlatformTeamEngineers-757639335249 --'
-alias rubocop_recent="{ git diff HEAD --name-only --diff-filter=MA & git diff origin/master..HEAD --name-only --diff-filter=MA; } | grep ".rb" | sort | uniq | xargs rubocop"
+alias gst='git status'
 
-# Erase duplicates in history
-export HISTCONTROL=erasedups
-# Store 10k history entries
+rubocop_recent() {
+  local -a files
+
+  files=("${(@f)$(
+    {
+      git diff HEAD --name-only --diff-filter=MA
+      git diff origin/master..HEAD --name-only --diff-filter=MA
+    } | grep '\.rb$' | sort -u
+  )}")
+
+  (( ${#files[@]} == 0 )) && return 0
+
+  rubocop "${files[@]}"
+}
+
+export HISTFILE="$HOME/.zsh_history"
 export HISTSIZE=10000
-# Append to the history file when exiting instead of overwriting it
+export SAVEHIST=10000
 setopt APPEND_HISTORY
+setopt INC_APPEND_HISTORY
+setopt EXTENDED_HISTORY
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_FIND_NO_DUPS
+setopt SHARE_HISTORY
 
-source ~/.git-prompt.sh
-zstyle ':completion:*:*:git:*' script ~/.git-completion.bash
+[[ -f ~/.git-prompt.sh ]] && source ~/.git-prompt.sh
+[[ -f ~/.git-completion.bash ]] && zstyle ':completion:*:*:git:*' script ~/.git-completion.bash
+
 fpath=(~/.zsh $fpath)
-# fpath=(~/.zsh/completions $fpath)
-autoload -Uz compinit && compinit
-precmd () { __git_ps1 "%n" ":%~$ " "|%s" }
+autoload -Uz compinit && compinit -C
 
-# heroku autocomplete setup
-HEROKU_AC_ZSH_SETUP_PATH=/Users/tomas/Library/Caches/heroku/autocomplete/zsh_setup && test -f $HEROKU_AC_ZSH_SETUP_PATH && source $HEROKU_AC_ZSH_SETUP_PATH
+precmd() { __git_ps1 "tomas" ":%~$ " "|%s"; }
 
-export PATH="/opt/homebrew/opt/openssl@1.1/bin:$PATH"
-export LDFLAGS="-L/opt/homebrew/opt/openssl@1.1/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/openssl@1.1/include"
-export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl@1.1/lib/pkgconfig"
-export RUBY_CONFIGURE_OPTS="--with-openssl-dir=/opt/homebrew/opt/openssl@1.1"
+HEROKU_AC_ZSH_SETUP_PATH="$HOME/Library/Caches/heroku/autocomplete/zsh_setup"
+[[ -f "$HEROKU_AC_ZSH_SETUP_PATH" ]] && source "$HEROKU_AC_ZSH_SETUP_PATH"
+
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
-export GEOS_LIBRARY_PATH=/opt/homebrew/lib
-export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
-# code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCodeInsiders" --args $* ;}
+eval "$(rbenv init - zsh)"
 
-eval "$(rbenv init -)"
 export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+export PATH="$PYENV_ROOT/bin:$PATH"
+command -v pyenv >/dev/null && eval "$(pyenv init -)"
 
-
-
+# nvm: load on first use only (avoids slowing every new terminal)
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-nvm use 18.20.7 > /dev/null 2>&1 # Use Node.js v18.20.7 by default
-xed() { if [[ $1 == "." && -e *.xcworkspace ]]; then command xed *.xcworkspace; else command xed "$@"; fi; }
+
+_lazy_nvm() {
+  unset -f nvm node npm npx _lazy_nvm
+  [[ -s "$NVM_DIR/nvm.sh" ]] && . "$NVM_DIR/nvm.sh"
+  [[ -s "$NVM_DIR/bash_completion" ]] && . "$NVM_DIR/bash_completion"
+  nvm use 18.20.7 >/dev/null 2>&1
+}
+
+nvm() {
+  _lazy_nvm
+  nvm "$@"
+}
+
+node() {
+  _lazy_nvm
+  command node "$@"
+}
+
+npm() {
+  _lazy_nvm
+  command npm "$@"
+}
+
+npx() {
+  _lazy_nvm
+  command npx "$@"
+}
+
+xed() {
+  if [[ "$1" == "." && -n *.xcworkspace(#qN) ]]; then
+    command xed *.xcworkspace
+  else
+    command xed "$@"
+  fi
+}
+
+code () {
+  # open(1) starts GUI apps with cwd /, so "." would resolve to /. Use absolute paths.
+  local -a abs
+  local x
+  (( $# )) || set -- .
+  for x in "$@"; do
+    abs+=("${x:A}")
+  done
+  open -na "Cursor" --args "${abs[@]}"
+}
 
 autoload -U +X bashcompinit && bashcompinit
