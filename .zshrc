@@ -50,6 +50,10 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 command -v pyenv >/dev/null && eval "$(pyenv init -)"
 
+# zsh caches the first path it finds for each command; a stale "ruby" -> /usr/bin
+# bypasses rbenv shims even when rbenv version is correct. Resolve from PATH every time.
+unsetopt HASH_CMDS
+
 # nvm: load on first use only (avoids slowing every new terminal)
 export NVM_DIR="$HOME/.nvm"
 
